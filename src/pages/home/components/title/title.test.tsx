@@ -4,7 +4,7 @@ import Title from "./title";
 
 test("renders title component", () => {
   render(<Title />);
-  const linkElement = screen.getByText(/Suleiman's Weather App/i);
+  const linkElement = screen.getByText(/Tiempo!/i);
   expect(linkElement).toBeInTheDocument();
 });
 

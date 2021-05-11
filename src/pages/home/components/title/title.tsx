@@ -4,7 +4,7 @@ import "./title.styles.css";
 const Title = () => {
   return (
     <div>
-      <h1 className='title-container__title'>Suleiman's Weather App </h1>
+      <h1 className='title-container__title'>Tiempo!</h1>
       <p className='title-container__subtitle'>
         {" "}
         Check today's weather in your location{" "}
