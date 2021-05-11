@@ -80,13 +80,10 @@ const Form = () => {
       {weatherReport.name !== "" && (
         <div>
           <p>
-            {" "}
-            {weatherReport.name +
-              ", " +
-              weatherReport.sys.country +
-              ": " +
-              Math.round(weatherReport.main.temp) +
-              "\xB0 Celsius"}{" "}
+            {`${weatherReport.name}, 
+              ${weatherReport.sys.country}:
+              ${Math.round(weatherReport.main.temp)}
+              \xB0 Celsius`}
           </p>
         </div>
       )}
