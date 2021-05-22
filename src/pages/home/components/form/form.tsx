@@ -26,7 +26,8 @@ const defaultWeatherReport: WeatherData = {
 const Form = () => {
   const [city, setCity] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isErrorFound, setIsErrorFound] = useState(false);
+  const [isButtonEnabled, setDisabledButton] = useState(true);
   const [weatherReport, setWeatherReport] = useState<WeatherData>(
     defaultWeatherReport
   );
@@ -35,25 +36,39 @@ const Form = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [weatherReport]);
+  }, [weatherReport.name]);
 
   const changeCityText = (event: any) => {
     setCity(event.target.value);
+    if (event.target.value !== "") {
+      setDisabledButton(false);
+    } else {
+      setDisabledButton(true);
+    }
   };
 
   const loadWeatherData = async (e: any) => {
-    if (city === "") {
-      return;
-    }
     try {
       e.preventDefault();
       const weather = await fetch(
         `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${Api_Key}`
       );
       const response = await weather.json();
-      setWeatherReport(response);
+      if (response.cod === "404") {
+        setIsErrorFound(true);
+        if (response.message === "city not found") {
+          setErrorMsg("Sorry, the city you entered could not be found...");
+        } else {
+          setErrorMsg("Sorry, an error occured. Please try again...");
+        }
+
+        console.log(response.message);
+      } else {
+        console.log(response);
+        setWeatherReport(response);
+        setIsErrorFound(false);
+      }
     } catch (error) {
-      setErrorMsg(error);
       throw new Error(`error getting weather report! status: ${error}`);
     }
   };
@@ -71,20 +86,24 @@ const Form = () => {
           ref={inputRef}
           type='text'
           name='city'
-          placeholder='Enter the name of your city here'
+          placeholder='Enter the name of your city here...'
           onChange={changeCityText}
           value={city}
         />
-        <button>Get Weather</button>
+        <button disabled={isButtonEnabled}>Get Weather</button>
       </form>
       {weatherReport.name !== "" && (
         <div>
-          <p>
-            {`${weatherReport.name}, 
+          {!isErrorFound ? (
+            <p>
+              {`${weatherReport.name}, 
               ${weatherReport.sys.country}:
               ${Math.round(weatherReport.main.temp)}
               \xB0 Celsius`}
-          </p>
+            </p>
+          ) : (
+            <p> {errorMsg}</p>
+          )}
         </div>
       )}
     </>
