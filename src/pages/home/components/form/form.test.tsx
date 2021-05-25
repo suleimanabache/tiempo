@@ -5,9 +5,7 @@ import Form from "./form";
 test("form submits city", async () => {
   render(<Form />);
 
-  const input = screen.getByPlaceholderText(
-    "Enter the name of your city here..."
-  );
+  const input = screen.getByPlaceholderText("Enter your location here...");
 
   fireEvent.change(input, { target: { value: "Crawley" } });
 

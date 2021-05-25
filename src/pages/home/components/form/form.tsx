@@ -73,12 +73,6 @@ const Form = () => {
     }
   };
 
-  // temperature: Math.round(response.main.temp) + "\xB0 Celsius",
-  // city: response.name,
-  // country: response.sys.country,
-  // humidity: response.main.humidity,
-  // description: response.weather[0].description,
-
   return (
     <>
       <form onSubmit={loadWeatherData}>
@@ -86,7 +80,7 @@ const Form = () => {
           ref={inputRef}
           type='text'
           name='city'
-          placeholder='Enter the name of your city here...'
+          placeholder='Enter your location here...'
           onChange={changeCityText}
           value={city}
         />
